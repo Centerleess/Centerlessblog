@@ -34,5 +34,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # include的参数中，首先设置一个元组   1、urlconf_module=子应用的路由, app_name=子应用的名字
     # namespace 设置命名空间
-    path("", include(("users.urls", "users"), namespace="users"))
+    path("", include(("users.urls", "users"), namespace="users")), 
 ]
