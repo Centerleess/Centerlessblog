@@ -5,6 +5,7 @@
 from django.urls import path
 
 from users.views import RegisterView, ImageCodeView
+from users.views import SmsCodeView
 
 urlpatterns = [
 
@@ -13,9 +14,12 @@ urlpatterns = [
     #     第二个参数：
     #     第三个参数：
 
-    path("register/", RegisterView.as_view(), name="register"),
+    path("register/", RegisterView.as_view(), name='register'),
     # 参数1：路由
     # 参数2：视图函数
     # 参数3：路由名，方便通过reverse来获取路由
     path('imagecode/', ImageCodeView.as_view(), name='imagecode'),
+
+    # 获取验证码
+    path('smscode/', SmsCodeView.as_view(), name="smscode"),
 ]
