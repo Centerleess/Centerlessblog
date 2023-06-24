@@ -4,7 +4,7 @@
 # 进行users子应用的路由
 from django.urls import path
 
-from users.views import RegisterView, ImageCodeView
+from users.views import RegisterView, ImageCodeView, LoginView
 from users.views import SmsCodeView
 
 urlpatterns = [
@@ -23,5 +23,10 @@ urlpatterns = [
     # 获取验证码
     path('smscode/', SmsCodeView.as_view(), name="smscode"),
 
+    # 登录
+    # 参数1：路由
+    # 参数2：视图函数
+    # 参数3：路由名，方便通过reverse来获取路由
+    path('login/', LoginView.as_view(), name='login'),
 
 ]
