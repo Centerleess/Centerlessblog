@@ -4,7 +4,7 @@ import logging
 import re
 from random import randint
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.db import DatabaseError
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render, redirect
@@ -179,9 +179,9 @@ class LoginView(View):
             # 实现状态保持
         login(request, user)
 
-            # 相应登录状态
+        # 相应登录状态
         response = redirect(reverse('home:index'))
-            # 设置状态时长
+        # 设置状态时长
         if remember != 'on':
             # 没有记住用户：浏览器会话结束就过期
             request.session.set_expiry(0)
@@ -195,4 +195,17 @@ class LoginView(View):
             response.set_cookie('is_login', True, max_age=14 * 24 * 3600)
             response.set_cookie('username', user.username, max_age=30 * 24 * 3600)
             # 相应结果
+        return response
+
+
+class LogoutView(View):
+    """View 清除cookie 退出登录"""
+
+    def get(self, request):
+        # 清楚cookie
+        logout(request)
+        # 退出登录，重定向至首页
+        response = redirect(reverse('home:index'))
+        # 清楚token
+        response.delete_cookie('is_login')
         return response

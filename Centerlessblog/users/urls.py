@@ -4,7 +4,7 @@
 # 进行users子应用的路由
 from django.urls import path
 
-from users.views import RegisterView, ImageCodeView, LoginView
+from users.views import RegisterView, ImageCodeView, LoginView, LogoutView
 from users.views import SmsCodeView
 
 urlpatterns = [
@@ -28,5 +28,8 @@ urlpatterns = [
     # 参数2：视图函数
     # 参数3：路由名，方便通过reverse来获取路由
     path('login/', LoginView.as_view(), name='login'),
+
+    # 退出
+    path('logout/', LogoutView.as_view(), name='logout'),
 
 ]

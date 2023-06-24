@@ -8,64 +8,67 @@
     <title>首页</title>
     {% load static %}
     <!-- 引入bootstrap的css文件 -->
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <!-- 引入monikai.css -->
-    <link rel="stylesheet" href="{% static 'md_css/monokai.css'%}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'md_css/monokai.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <!--导入css-->
-    <link rel="stylesheet" href="{% static 'common/common.css'%}">
-    <link rel="stylesheet" href="{% static 'common/jquery.pagination.css'%}.">
+    <link rel="stylesheet" href="{% static 'common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'common/jquery.pagination.css' %}.">
     <!-- 引入vuejs -->
-    <script type="text/javascript" src="{% static 'js/vue-2.5.16.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/axios-0.18.0.min.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/vue-2.5.16.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/axios-0.18.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 </head>
 
 <body>
 <div id="app">
-<!-- 定义导航栏 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- 定义导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 
-    <div class="container">
-        <!-- 导航栏商标 -->
-        <div>
-            <a class="navbar-brand" href="./index.html">个人博客</a>
-        </div>
-        <!-- 分类 -->
-        <div class="collapse navbar-collapse">
+        <div class="container">
+            <!-- 导航栏商标 -->
             <div>
-                <ul class="nav navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link mr-2" href="#">Python</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mr-2" href="#">Java</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mr-2" href="#">C</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link mr-2" href="#">C++</a>
-                    </li>
-                </ul>
+                <a class="navbar-brand" href="{% url 'home:index' %}">个人博客</a>
+            </div>
+            <!-- 分类 -->
+            <div class="collapse navbar-collapse">
+                <div>
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link mr-2" href="#">Python</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mr-2" href="#">Java</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mr-2" href="#">C</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mr-2" href="#">C++</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <!--登录/个人中心-->
-    <div class="navbar-collapse">
+        <!--登录/个人中心-->
+        <div class="navbar-collapse">
             <ul class="nav navbar-nav">
                 <!-- 如果用户已经登录，则显示用户名下拉框 -->
                 <li class="nav-item dropdown" v-if="is_login">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="show_menu_click">[[username]]</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="display: block" v-show="show_menu">
+                    <a class="nav-link dropdown-toggle" href="{% url 'users:logout'%}" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="show_menu_click">[[username]]</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="display: block"
+                         v-show="show_menu">
                         <a class="dropdown-item" href="../static/write_blog.html">写文章</a>
                         <a class="dropdown-item" href='../static/center.html'>个人信息</a>
-                        <a class="dropdown-item" href='#'>退出登录</a>
+                        <a class="dropdown-item" href='{% url 'users:logout'%}'>退出登录</a>
                     </div>
                 </li>
                 <!-- 如果用户未登录，则显示登录按钮 -->
                 <li class="nav-item" v-else>
-                    <a class="nav-link" href="login.html">登录</a>
+                    <a class="nav-link" href="{% url 'users:login' %}">登录</a>
                 </li>
             </ul>
         </div>
@@ -78,7 +81,7 @@
             <!-- 文章内容 -->
             <!-- 标题图 -->
             <div class="col-3">
-                <img src="{% static 'img/1.jpg'%}" alt="avatar" style="max-width:100%; border-radius: 20px">
+                <img src="{% static 'img/1.jpg' %}" alt="avatar" style="max-width:100%; border-radius: 20px">
             </div>
             <div class="col">
                 <!-- 栏目 -->
@@ -112,7 +115,7 @@
         <!-- 文章内容 -->
         <!-- 标题图 -->
         <div class="col-3">
-            <img src="{% static 'img/1.jpg'%}" alt="avatar" style="max-width:100%; border-radius: 20px">
+            <img src="{% static 'img/1.jpg' %}" alt="avatar" style="max-width:100%; border-radius: 20px">
         </div>
         <div class="col">
             <!-- 栏目 -->
@@ -146,7 +149,7 @@
         <!-- 文章内容 -->
         <!-- 标题图 -->
         <div class="col-3">
-            <img src="{% static 'img/1.jpg'%}" alt="avatar" style="max-width:100%; border-radius: 20px">
+            <img src="{% static 'img/1.jpg' %}" alt="avatar" style="max-width:100%; border-radius: 20px">
         </div>
         <div class="col">
             <!-- 栏目 -->
@@ -180,7 +183,7 @@
         <!-- 文章内容 -->
         <!-- 标题图 -->
         <div class="col-3">
-            <img src="{% static 'img/1.jpg'%}" alt="avatar" style="max-width:100%; border-radius: 20px">
+            <img src="{% static 'img/1.jpg' %}" alt="avatar" style="max-width:100%; border-radius: 20px">
         </div>
         <div class="col">
             <!-- 栏目 -->
@@ -214,7 +217,7 @@
         <!-- 文章内容 -->
         <!-- 标题图 -->
         <div class="col-3">
-            <img src="{% static 'img/1.jpg'%}" alt="avatar" style="max-width:100%; border-radius: 20px">
+            <img src="{% static 'img/1.jpg' %}" alt="avatar" style="max-width:100%; border-radius: 20px">
         </div>
         <div class="col">
             <!-- 栏目 -->
@@ -258,21 +261,21 @@
 </div>
 
 <!-- 引入js -->
-<script type="text/javascript" src="{% static 'js/host.js'%}"></script>
-<script type="text/javascript" src="{% static 'js/common.js'%}"></script>
-<script type="text/javascript" src="{% static 'js/index.js'%}"></script>
-<script type="text/javascript" src="{% static 'js/jquery.pagination.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/host.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/common.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.pagination.min.js' %}"></script>
 <script type="text/javascript">
     $(function () {
-        $('#pagination').pagination({
-            currentPage: 15,
-            totalPage: 30,
-            callback:function (current) {
+        $(' #pagination').pagination({
+                        currentPage: 15,
+                        totalPage: 30,
+                        callback:function (current) {
 
-                location.href = '/';
-            }
-        })
-    });
-</script>
+                        location.href = '/';
+                        }
+                        })
+                        });
+                        </script>
 </body>
 </html>
