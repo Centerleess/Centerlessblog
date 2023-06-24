@@ -9,11 +9,6 @@ var vm = new Vue({
         username: ''
     },
     mounted() {
-        this.username = getCookie('username');
-        // this.is_login=getCookie('is_login');
-        this.is_login = true
-    },
-    mounted() {
         //获取用户名信息
         this.username = getCookie('username');
         this.username = this.username.replace(/(\d{3})\d{4}(\d{4})/,"$1****$2");
