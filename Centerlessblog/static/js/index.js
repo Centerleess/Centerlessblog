@@ -4,19 +4,27 @@ var vm = new Vue({
     delimiters: ['[[', ']]'],
     data: {
         host,
-        show_menu:false,
-        is_login:true,
-        username:''
+        show_menu: false,
+        is_login: true,
+        username: ''
     },
-    mounted(){
-        this.username=getCookie('username');
+    mounted() {
+        this.username = getCookie('username');
         // this.is_login=getCookie('is_login');
-        this.is_login=true
+        this.is_login = true
     },
+    mounted() {
+        //获取用户名信息
+        this.username = getCookie('username');
+        this.username = this.username.replace(/(\d{3})\d{4}(\d{4})/,"$1****$2");
+        //获取是否登录信息
+        this.is_login = getCookie('is_login');
+    },
+
     methods: {
         //显示下拉菜单
-        show_menu_click:function(){
-            this.show_menu = !this.show_menu ;
+        show_menu_click: function () {
+            this.show_menu = !this.show_menu;
         },
     }
 });

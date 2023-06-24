@@ -22,4 +22,6 @@ urlpatterns = [
 
     # 获取验证码
     path('smscode/', SmsCodeView.as_view(), name="smscode"),
+
+
 ]

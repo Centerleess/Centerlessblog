@@ -19,6 +19,7 @@ from django.http import HttpResponse
 
 # 1、导入系统的logging
 import logging
+
 #
 # # 2、创建（获取）日志器
 # logger = logging.getLogger("django_log")
@@ -34,5 +35,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # include的参数中，首先设置一个元组   1、urlconf_module=子应用的路由, app_name=子应用的名字
     # namespace 设置命名空间
-    path("", include(("users.urls", "users"), namespace="users")), 
+    path("", include(("users.urls", "users"), namespace="users")),
+
+    # 添加首页引用引导
+    path('', include(('home.urls', 'home'), namespace='home')),
+
 ]

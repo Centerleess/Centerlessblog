@@ -3,9 +3,12 @@
 import logging
 import re
 from random import randint
+
+from django.contrib.auth import login
 from django.db import DatabaseError
 from django.http import HttpResponseBadRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from django_redis import get_redis_connection
 from libs.captcha.captcha import captcha
@@ -68,7 +71,18 @@ class RegisterView(View):
             return HttpResponseBadRequest('注册失败')
 
         # 响应注册结果
-        return HttpResponse('注册成功，重定向到首页')
+        """  
+            redirect : 重定向
+            reversed : 是通过namespace:name 获取到试图对应路由
+        """
+        login(request, user)
+        response = redirect(reverse('home:index'))
+        # 设置cookie ，登录状态，会话结束自动过期
+        response.set_cookie('is_login', True)
+        # 设置用户名7天后过期
+        response.set_cookie('username', user.username, max_age=7 * 24 * 3600)
+
+        return response
 
 
 class ImageCodeView(View):
