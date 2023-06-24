@@ -1,17 +1,17 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import logging
+import re
 from random import randint
-
-import redis
-from django.http import HttpResponseBadRequest, HttpResponse, request
+from django.db import DatabaseError
+from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django_redis import get_redis_connection
 from libs.captcha.captcha import captcha
 from django.http.response import JsonResponse
-
 from libs.yuntongxun.sms import CCP
+from users.models import User
 from utils.response_code import RETCODE
 
 # 篇日志日志器
@@ -29,6 +29,46 @@ class RegisterView(View):
         :return: 注册界面
         """
         return render(request, "register.html")
+
+    def post(self, request):
+        # 获取参数
+        mobile = request.POST.get('mobile')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        smscode = request.POST.get('sms_code')
+
+        # 判断参数
+        if not all([mobile, password, password2, smscode]):
+            return JsonResponse({'code': RETCODE.NECESSARYPARAMERR, "errmsg": "缺少必传参数"})
+        if not all([mobile, password, password2, smscode]):
+            return HttpResponseBadRequest('缺少必传参数')
+            # 判断手机号是否合法
+        if not re.match(r'^1[3-9]\d{9}$', mobile):
+            return HttpResponseBadRequest('请输入正确的手机号码')
+            # 判断密码是否是8-20个数字
+        if not re.match(r'^[0-9A-Za-z]{8,20}$', password):
+            return HttpResponseBadRequest('请输入8-20位的密码')
+            # 判断两次密码是否一致
+        if password != password2:
+            return HttpResponseBadRequest('两次输入的密码不一致')
+
+        # 验证短信验证码
+        redis_conn = get_redis_connection('default')
+        sms_code_server = redis_conn.get('sms:%s' % mobile)
+        if sms_code_server is None:
+            return HttpResponseBadRequest('短信验证码已过期')
+        if smscode != sms_code_server.decode():
+            return HttpResponseBadRequest('短信验证码错误')
+        # 保存注册数据,create_user 可对密码加密
+        try:
+            user = User.objects.create_user(username=mobile, mobile=mobile, password=password)
+            logger.info(user)
+        except DatabaseError as e:
+            logger.error(e)
+            return HttpResponseBadRequest('注册失败')
+
+        # 响应注册结果
+        return HttpResponse('注册成功，重定向到首页')
 
 
 class ImageCodeView(View):
@@ -85,7 +125,6 @@ class SmsCodeView(View):
 
         # 生成短信验证码：生成6位数验证码
         sms_code = '%04d' % randint(0, 9999)
-        # 将验证码输出在控制台，以方便调试
         logger.info(sms_code)
         # 保存短信验证码到redis中，并设置有效期
         redis_conn.setex('sms:%s' % mobile, 300, sms_code)
