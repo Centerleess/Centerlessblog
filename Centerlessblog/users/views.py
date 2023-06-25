@@ -162,7 +162,7 @@ class LoginView(View):
         remember = request.POST.get('remember')
 
         if not all([mobile, password]):
-            return JsonResponse({'code': RETCODE.NECESSARYPARAMERR})
+            return JsonResponse({'code': RETCODE.NECESSARYPARAMERR, 'errmsg': '缺少必传参数'})
             # 判断手机号是否正确
         if not re.match(r'^1[3-9]\d{9}$', mobile):
             return HttpResponseBadRequest('请输入正确的手机号')
@@ -213,6 +213,7 @@ class LogoutView(View):
 
 class ForgetPassword(View):
     """ 忘记密码 """
+
     def get(self, request):
         """
         忘记密码页面
@@ -220,3 +221,56 @@ class ForgetPassword(View):
         :return:
         """
         return render(request, 'forget_password.html')
+
+    def post(self, request):
+        """
+        修改密码
+        :param request:
+        :return:
+        """
+        mobile = request.POST.get('mobile')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        smscode = request.POST.get('sms_code')
+
+        # 校验参数
+        if not all([mobile, password, password2, smscode]):
+            return JsonResponse({'code': RETCODE.NECESSARYPARAMERR, 'errmsg': '缺少必传参数'})
+            # 判断手机号是否合法
+        if not re.match(r'^1[3-9]\d{9}$', mobile):
+            return HttpResponseBadRequest('请输入正确的手机号码')
+
+            # 判断密码是否是8-20个数字
+        if not re.match(r'^[0-9A-Za-z]{8,20}$', password):
+            return HttpResponseBadRequest('请输入8-20位的密码')
+
+            # 判断两次密码是否一致
+        if password != password2:
+            return HttpResponseBadRequest('两次输入的密码不一致')
+        # 判断验证码
+        redis_coon = get_redis_connection('default')
+        sms_code_server = redis_coon.get(f'sms:{mobile}')
+        if sms_code_server is None:
+            return HttpResponseBadRequest('短信验证码已过期')
+        if smscode != sms_code_server.decode():
+            return HttpResponseBadRequest('短信验证码错误，请重新获取！')
+        # 根据手机好进行用户查询
+        try:
+            user = User.objects.get(mobile=mobile)
+            logger.info('mobile')
+        except User.DoesNotExist:
+            try:
+                # 创建用户
+                User.objects.create_user(username=mobile, mobile=mobile, password=password)
+            except Exception as e:
+                logger.error(e)
+                return HttpResponseBadRequest('修改失败，请稍后再试！')
+        else:
+            # 修改用户密码
+            user.set_password(password)
+            # 数据提交
+            user.save()
+        # 重定向登录页面
+        response = redirect(reverse('users:login'))
+
+        return response
