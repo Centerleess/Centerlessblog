@@ -4,7 +4,7 @@
 # 进行users子应用的路由
 from django.urls import path
 
-from users.views import RegisterView, ImageCodeView, LoginView, LogoutView
+from users.views import RegisterView, ImageCodeView, LoginView, LogoutView, ForgetPassword
 from users.views import SmsCodeView
 
 urlpatterns = [
@@ -31,5 +31,7 @@ urlpatterns = [
 
     # 退出
     path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('forget_password/', ForgetPassword.as_view(), name='forget_password')
 
 ]

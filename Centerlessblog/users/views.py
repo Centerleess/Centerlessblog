@@ -209,3 +209,14 @@ class LogoutView(View):
         # 清楚token
         response.delete_cookie('is_login')
         return response
+
+
+class ForgetPassword(View):
+    """ 忘记密码 """
+    def get(self, request):
+        """
+        忘记密码页面
+        :param request:
+        :return:
+        """
+        return render(request, 'forget_password.html')
