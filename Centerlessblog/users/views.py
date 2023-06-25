@@ -5,6 +5,7 @@ import re
 from random import randint
 
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import DatabaseError
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render, redirect
@@ -274,3 +275,29 @@ class ForgetPassword(View):
         response = redirect(reverse('users:login'))
 
         return response
+
+
+class UserCenterView(View):
+
+    def get(self, request):
+        """
+        个人中心
+        :param request:
+        :return:
+        """
+        return render(request, 'center.html')
+
+    def post(self, request):
+        """
+        修改用户信息
+        :param request:
+        :return:
+        """
+        pass
+
+
+# class WriteBlogView(LoginRequiredMixin,View):
+#     """ 写博客"""
+#     def get(self,request):
+#
+#         return render(request, 'write_blog.html')

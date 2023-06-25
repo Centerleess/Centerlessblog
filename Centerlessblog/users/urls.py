@@ -4,7 +4,7 @@
 # 进行users子应用的路由
 from django.urls import path
 
-from users.views import RegisterView, ImageCodeView, LoginView, LogoutView, ForgetPassword
+from users.views import RegisterView, ImageCodeView, LoginView, LogoutView, ForgetPassword, UserCenterView
 from users.views import SmsCodeView
 
 urlpatterns = [
@@ -29,9 +29,17 @@ urlpatterns = [
     # 参数3：路由名，方便通过reverse来获取路由
     path('login/', LoginView.as_view(), name='login'),
 
-    # 退出
+    # 账号退出
     path('logout/', LogoutView.as_view(), name='logout'),
 
-    path('forget_password/', ForgetPassword.as_view(), name='forget_password')
+    # 修改面膜
+    path('forget_password/', ForgetPassword.as_view(), name='forget_password'),
+
+    # 个人中心
+    path('center/', UserCenterView.as_view(), name='center'),
+
+    # 写博客
+    # path('write_blog/', WriteBlogView.as_view(), name='write_blog'),
+
 
 ]
