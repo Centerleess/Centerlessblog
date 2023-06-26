@@ -292,7 +292,14 @@ class UserCenterView(LoginRequiredMixin, View):
         :param request:
         :return:
         """
-        return render(request, 'center.html')
+        user = request.user
+        context ={
+            "username": user.username,
+            "mobile": user.mobile,
+            "avatar": user.avatar,
+            "user_desc": user.user_desc
+        }
+        return render(request, 'center.html', context=context)
 
     def post(self, request):
         """
