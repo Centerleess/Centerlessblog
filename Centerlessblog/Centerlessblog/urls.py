@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
+# 配置图片统一路由地址
+from django.conf import settings
+from django.conf.urls.static import static
 
 # 1、导入系统的logging
 import logging
@@ -41,3 +43,6 @@ urlpatterns = [
     path('', include(('home.urls', 'home'), namespace='home')),
 
 ]
+
+# 以下代码为设置图片访问路由匹配规则
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

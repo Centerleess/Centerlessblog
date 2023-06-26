@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -193,3 +194,11 @@ LOGGING = {
 AUTH_USER_MODEL = 'users.User'
 # 未登录跳转路由
 LOGIN_URL = '/login/'
+
+# # 1、设置图片上传的路径并新建文件夹media
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# # 设置图片的统一url地址都是media
+# MEDIA_URL = '/media/'
+# media资源
+MEDIA_URL = '/media/'  # 后期高级序列化类与视图类，会使用该配置
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  # media资源路径
