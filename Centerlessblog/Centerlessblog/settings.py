@@ -191,3 +191,5 @@ LOGGING = {
 }
 # 用户模型类
 AUTH_USER_MODEL = 'users.User'
+# 未登录跳转路由
+LOGIN_URL = '/login/'

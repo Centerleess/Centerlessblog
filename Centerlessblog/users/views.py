@@ -181,7 +181,12 @@ class LoginView(View):
         login(request, user)
 
         # 相应登录状态
-        response = redirect(reverse('home:index'))
+        # 获取next参数，进行页面跳转
+        next_page = request.GET.get('next')
+        if next_page:
+            response = redirect(next_page)
+        else:
+            response = redirect(reverse('home:index'))
         # 设置状态时长
         if remember != 'on':
             # 没有记住用户：浏览器会话结束就过期
@@ -277,11 +282,13 @@ class ForgetPassword(View):
         return response
 
 
-class UserCenterView(View):
+# LoginRequiredMixin 判断用户是否登录，封装了判断用户是否登录的操作
+class UserCenterView(LoginRequiredMixin, View):
+    """ 个人信息 """
 
     def get(self, request):
         """
-        个人中心
+        个人中心展示
         :param request:
         :return:
         """
