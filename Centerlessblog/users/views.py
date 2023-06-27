@@ -12,6 +12,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django_redis import get_redis_connection
+
+from home.models import ArticleCategory
 from libs.captcha.captcha import captcha
 from django.http.response import JsonResponse
 from libs.yuntongxun.sms import CCP
@@ -333,8 +335,16 @@ class UserCenterView(LoginRequiredMixin, View):
         return response
 
 
-class WriteBlogView(LoginRequiredMixin,View):
+class WriteBlogView(LoginRequiredMixin, View):
     """ 写博客"""
 
     def get(self, request):
-        return render(request, 'write_blog.html')
+
+        # 查询分类信息
+        categories = ArticleCategory.objects.all()
+        context = {
+            "categories": categories
+        }
+        # 返回查询结果
+        return render(request, 'write_blog.html', context=context)
+
