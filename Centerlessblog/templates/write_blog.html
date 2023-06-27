@@ -73,6 +73,7 @@
                 <div class="form-group">
                     <label for="category">栏目</label>
                     <select class="form-control col-3" id="category" name="category">
+                            <option value="none" >请选择分类...</option>
                             {% for category in categories %}
                                 <option value="{{ category.id }}">{{ category.sort_title }}</option>
                             {% endfor %}
