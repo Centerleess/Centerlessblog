@@ -4,7 +4,8 @@
 # 进行users子应用的路由
 from django.urls import path
 
-from users.views import RegisterView, ImageCodeView, LoginView, LogoutView, ForgetPassword, UserCenterView
+from users.views import RegisterView, ImageCodeView, LoginView, LogoutView, ForgetPassword, UserCenterView, \
+    WriteBlogView
 from users.views import SmsCodeView
 
 urlpatterns = [
@@ -39,7 +40,7 @@ urlpatterns = [
     path('center/', UserCenterView.as_view(), name='center'),
 
     # 写博客
-    # path('write_blog/', WriteBlogView.as_view(), name='write_blog'),
+    path('writeblog/', WriteBlogView.as_view(), name='writeblog'),
 
 
 ]

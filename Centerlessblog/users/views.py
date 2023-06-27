@@ -333,8 +333,8 @@ class UserCenterView(LoginRequiredMixin, View):
         return response
 
 
-# class WriteBlogView(LoginRequiredMixin,View):
-#     """ 写博客"""
-#     def get(self,request):
-#
-#         return render(request, 'write_blog.html')
+class WriteBlogView(LoginRequiredMixin,View):
+    """ 写博客"""
+
+    def get(self, request):
+        return render(request, 'write_blog.html')
