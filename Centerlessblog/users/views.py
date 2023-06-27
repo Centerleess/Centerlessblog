@@ -13,7 +13,7 @@ from django.urls import reverse
 from django.views import View
 from django_redis import get_redis_connection
 
-from home.models import ArticleCategory
+from home.models import ArticleCategory, Article
 from libs.captcha.captcha import captcha
 from django.http.response import JsonResponse
 from libs.yuntongxun.sms import CCP
@@ -295,7 +295,7 @@ class UserCenterView(LoginRequiredMixin, View):
         :return:
         """
         user = request.user
-        context ={
+        context = {
             "username": user.username,
             "mobile": user.mobile,
             "avatar": user.avatar,
@@ -339,7 +339,6 @@ class WriteBlogView(LoginRequiredMixin, View):
     """ 写博客"""
 
     def get(self, request):
-
         # 查询分类信息
         categories = ArticleCategory.objects.all()
         context = {
@@ -348,3 +347,48 @@ class WriteBlogView(LoginRequiredMixin, View):
         # 返回查询结果
         return render(request, 'write_blog.html', context=context)
 
+    def post(self, request):
+        # 获取数据
+        # 标题图
+        avatar = request.FILES.get('avatar')
+        # 文章标题
+        title = request.POST.get('title')
+        # 分类ID
+        category_id = request.POST.get('category')
+        # 文章标签
+        tags = request.POST.get('tags')
+        # 概要信息
+        sumary = request.POST.get('sumary')
+        # 文章正文
+        content = request.POST.get('content')
+
+        user = request.user
+
+        if not all([avatar, title, category_id, sumary, content]):
+            return HttpResponseBadRequest('参数不全,请重新输入！')
+
+        # 判断分类标签
+        try:
+            article_category = ArticleCategory.objects.get(id=category_id)
+        except ArticleCategory.DoesNotExist as e:
+            logger.error(e)
+            return HttpResponseBadRequest('没有此分类信息')
+
+        # 提交数据
+        try:
+            Article.objects.create(
+                author=user,
+                avatar=avatar,
+                category=article_category,
+                tags=tags,
+                title=title,
+                sumary=sumary,
+                content=content
+            )
+        except Article.DoesNotExist as e:
+            logger.error(e)
+            return HttpResponseBadRequest('发布失败，请稍后再试')
+
+        # 返回响应，跳转到文章详情页面
+        # 暂时先跳转到首页
+        return redirect(reverse('home:index'))
