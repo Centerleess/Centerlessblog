@@ -204,3 +204,6 @@ LOGIN_URL = '/login/'
 # media资源
 MEDIA_URL = '/media/'  # 后期高级序列化类与视图类，会使用该配置
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')  # media资源路径
+
+LANGUAGE_CODE = 'zh-Hans'  # 修改语言 原配置信息为'en-us'
+TIME_ZONE = 'Asia/Shanghai'  # 修改失去 原配置信息为'UTC'

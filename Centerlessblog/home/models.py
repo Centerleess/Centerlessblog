@@ -20,8 +20,10 @@ class ArticleCategory(models.Model):
     # admin站点显示，调试查看对象方便给
     def __str__(self):
         return self.sort_title
+    # 创建管理员必输入字段
+    REQUIRED_FIELDS = ['username', 'email']
 
     class Meta:
-        db_table='tb_category'
+        db_table = 'tb_category'
         verbose_name = '类别管理'
         verbose_name_plural = verbose_name
