@@ -57,3 +57,10 @@ class IndexView(View):
             "total_page": total_page
         }
         return render(request, 'index.html', context=context)
+
+
+class DetailView(View):
+    """ 详情页面展示 """
+
+    def get(self, request):
+        return render(request, 'detail.html')
