@@ -77,7 +77,7 @@ class DetailView(View):
             article = Article.objects.get(id=id)
         except Article.DoesNotExist as e:
             logger.error(e)
-            pass
+            return render(request, '404.html')
 
         # 组织模板数据
         context = {
