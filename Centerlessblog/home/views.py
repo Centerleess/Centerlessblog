@@ -10,9 +10,12 @@ from django.views import View
 from home.models import ArticleCategory, Article
 
 logger = logging.getLogger("django_log")
+
+
 # Create your views here.
 class IndexView(View):
     """首页广告"""
+
     def get(self, request):
         """
         页面展示
@@ -63,4 +66,23 @@ class DetailView(View):
     """ 详情页面展示 """
 
     def get(self, request):
-        return render(request, 'detail.html')
+        # 接受数据
+        id = request.GET.get('id')
+
+        # 根据文章的id进行文章数据的查询
+        # 获取博客分类信息
+        categories = ArticleCategory.objects.all()
+
+        try:
+            article = Article.objects.get(id=id)
+        except Article.DoesNotExist as e:
+            logger.error(e)
+            pass
+
+        # 组织模板数据
+        context = {
+            "categories": categories,
+            "category": article.category,
+            "article": article,
+        }
+        return render(request, 'detail.html', context=context)
