@@ -78,11 +78,19 @@ class DetailView(View):
         except Article.DoesNotExist as e:
             logger.error(e)
             return render(request, '404.html')
+        else:
+            # 浏览量 +1
+            article.total_views += 1
+            article.save()
+
+        # 推荐文章展示
+        hot_articles = Article.objects.order_by('-total_views')[:9]
 
         # 组织模板数据
         context = {
             "categories": categories,
             "category": article.category,
             "article": article,
+            "hot_articles": hot_articles
         }
         return render(request, 'detail.html', context=context)
