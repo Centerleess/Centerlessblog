@@ -69,6 +69,8 @@ class DetailView(View):
     def get(self, request):
         # 接受数据
         id = request.GET.get('id')
+        page_num = request.GET.get('page_num', 1)
+        page_size = request.GET.get('page_size', 10)
 
         # 根据文章的id进行文章数据的查询
         # 获取博客分类信息
@@ -86,14 +88,32 @@ class DetailView(View):
 
         # 推荐文章展示
         hot_articles = Article.objects.order_by('-total_views')[:9]
+        # 获取评论数据
+        comments = Comment.objects.filter(article=article).order_by('-created')
+        # 获取评论总数
+        total_count = comments.count()
+        # 分页器
+        paginator = Paginator(comments, page_size)
 
-
+        # 获取每页数据
+        try:
+            page_comments = paginator.page(page_num)
+        except EmptyPage as e:
+            logger.error(e)
+            return render(request, '404.html')
+        # 获取总页数
+        total_page = paginator.num_pages
         # 组织模板数据
         context = {
             "categories": categories,
             "category": article.category,
             "article": article,
-            "hot_articles": hot_articles
+            "hot_articles": hot_articles,
+            "total_count": total_count,
+            "comments": page_comments,
+            "page_size": page_size,
+            "page_num": page_num,
+            "total_page": total_page,
         }
         return render(request, 'detail.html', context=context)
 
