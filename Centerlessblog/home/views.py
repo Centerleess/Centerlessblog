@@ -4,10 +4,11 @@ import logging
 
 from django.core.paginator import Paginator, EmptyPage
 from django.http import HttpResponseBadRequest, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 
-from home.models import ArticleCategory, Article
+from home.models import ArticleCategory, Article, Comment
 
 logger = logging.getLogger("django_log")
 
@@ -86,6 +87,7 @@ class DetailView(View):
         # 推荐文章展示
         hot_articles = Article.objects.order_by('-total_views')[:9]
 
+
         # 组织模板数据
         context = {
             "categories": categories,
@@ -94,3 +96,39 @@ class DetailView(View):
             "hot_articles": hot_articles
         }
         return render(request, 'detail.html', context=context)
+
+    def post(self, request):
+        """
+        发表评论
+        :param request:
+        :return:
+        """
+        #   1、接受数据
+        user = request.user
+        #   2、判断用户登录状态
+        if user and user.is_authenticated:
+            #  3、登录用户则可以接受form的数据
+            id = request.POST.get("id")
+            content = request.POST.get("content")
+
+            try:
+                #  3.2、验证文章是否存在
+                article = Article.objects.get(id=id)
+            except Article.DoesNotExist as e:
+                logger.error(e)
+                return render(request, '404.html')
+            #       3.3、保存数据评论
+            Comment.objects.create(
+                content=content,
+                article=article,
+                user=user
+            )
+            #       3.4、评论数量递增
+            article.comments_count += 1
+            article.save()
+            # 页面刷新 暂时不用Ajax，后期优化处理
+            path = reverse("home:detail") + "?id={}".format(article.id)
+            #  4、未登录状态发表评论重定向登录页面
+            return redirect(path)
+        else:
+            return redirect(reverse("users:login"))

@@ -92,7 +92,9 @@
             <br>
             <div>
                 <form method="POST">
-                <div class="form-group"><label for="body"><strong>我也要发言：</strong></label>
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ article.id }}">
+                <div class="form-group"><label for="body"><strong>我也要评论：</strong></label>
                     <div>
 
                         <div class="django-ckeditor-widget" data-field-id="id_body" style="display: inline-block;">
@@ -103,7 +105,7 @@
                     </div>
                 </div>
                     <!-- 提交按钮 -->
-                    <button type="submit" class="btn btn-primary ">发送</button>
+                    <button type="submit" class="btn btn-primary ">发言</button>
                 </form>
             </div>
             <br>
