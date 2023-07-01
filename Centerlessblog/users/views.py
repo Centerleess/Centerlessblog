@@ -67,7 +67,7 @@ class RegisterView(View):
             return HttpResponseBadRequest('短信验证码已过期')
         if smscode != sms_code_server.decode():
             return HttpResponseBadRequest('短信验证码错误')
-        # 保存注册数据,create_user 可对密码加密
+        # 保存注册数据,tb_user 可对密码加密
         try:
             user = User.objects.create_user(username=mobile, mobile=mobile, password=password)
             logger.info(user)
