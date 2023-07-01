@@ -5,6 +5,7 @@ import os
 import re
 from random import randint
 
+from django.conf import settings
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import DatabaseError

@@ -1069,7 +1069,7 @@ pre code {
     .col-md-4 {
         -ms-flex: 0 0 33.333333%;
         flex: 0 0 33.333333%;
-        max-width: 33.333333%
+        max-width: 50%
     }
 
     .col-md-5 {
@@ -7635,11 +7635,11 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 }
 
 /*Í·ÏñÐý×ª*/
-#avatar {
+#avatar_id {
     transition: transform 1s ease-in-out;
 }
 
-#avatar:hover {
+#avatar_id:hover {
     transform: rotate(360deg);
 }
 
