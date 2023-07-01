@@ -393,7 +393,7 @@ hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
-    border-top: 1px solid rgba(0, 0, 0, .1)
+    border-top: 8px solid rgba(0, 0, 0, .1)
 }
 
 .small, small {
@@ -585,10 +585,17 @@ pre code {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px
+    margin-right: 15px;
+    margin-left: -15px;
+    justify-content: left;
+    position: relative; /* Add position: relative to enable top adjustment */
+    top: 10px; /* Default value */
+    transition: top 0.3s ease; /* Add smooth transition effect */
 }
 
+.row.adjust-top {
+    top: 100px; /* Adjust the top value as per your requirement */
+}
 .no-gutters {
     margin-right: 0;
     margin-left: 0
@@ -1202,6 +1209,7 @@ pre code {
 
     .offset-md-3 {
         margin-left: 25%
+        padding-top:50px
     }
 
     .offset-md-4 {
@@ -1925,8 +1933,8 @@ pre code {
 
 .form-control {
     display: block;
-    width: 100%;
-    height: calc(2.25rem + 2px);
+    width: 60%;
+    height: calc(2.25rem + 0.75rem);
     padding: .375rem .75rem;
     font-size: 1rem;
     line-height: 1.5;
@@ -1936,6 +1944,7 @@ pre code {
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    justify-content: space-around;
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
@@ -9041,7 +9050,7 @@ a.text-dark:focus, a.text-dark:hover {
 }
 
 .text-muted {
-    color: #6c757d !important
+    color: #000000 !important
 }
 
 .text-black-50 {
