@@ -3,7 +3,7 @@
 import logging
 
 from django.core.paginator import Paginator, EmptyPage
-from django.http import HttpResponseBadRequest, HttpResponseNotFound
+from django.http import HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
@@ -63,7 +63,7 @@ class IndexView(View):
             "page_size": page_size,
             "page_num": page_num,
             "total_page": total_page,
-            "hot_articles":hot_articles
+            "hot_articles": hot_articles
         }
         return render(request, 'index.html', context=context)
 
@@ -128,27 +128,27 @@ class DetailView(View):
         :param request:
         :return:
         """
-        #   1、接受数据
+        # 1、接受数据
         user = request.user
-        #   2、判断用户登录状态
+        # 2、判断用户登录状态
         if user and user.is_authenticated:
-            #  3、登录用户则可以接受form的数据
+            # 3、登录用户则可以接受form的数据
             id = request.POST.get("id")
             content = request.POST.get("content")
 
             try:
-                #  3.2、验证文章是否存在
+                # 3.2、验证文章是否存在
                 article = Article.objects.get(id=id)
             except Article.DoesNotExist as e:
                 logger.error(e)
                 return render(request, '404.html')
-            #       3.3、保存数据评论
+            # 3.3、保存数据评论
             Comment.objects.create(
                 content=content,
                 article=article,
                 user=user
             )
-            #       3.4、评论数量递增
+            # 3.4、评论数量递增
             article.comments_count += 1
             article.save()
             # 页面刷新 暂时不用Ajax，后期优化处理

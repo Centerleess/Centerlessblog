@@ -321,7 +321,12 @@ class UserCenterView(LoginRequiredMixin, View):
             user.username = username
             user.user_desc = user_desc
             # 这里需要实现一个上传图片替换元图片的方式
-
+            # 删除原来的图片
+            if avatar and user.avatar:
+                old_avatar_path = user.avatar.path
+                if os.path.exists(old_avatar_path):
+                    os.remove(old_avatar_path)
+            # 保存新图片
             if avatar:
                 user.avatar = avatar
             user.save()

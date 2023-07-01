@@ -128,12 +128,28 @@
             </div>
             <!-- 右侧内容 -->
             <div class="col-3 my-4-4">
+                <div class="text-center">
+                    {% if user.is_authenticated %}
+                        <img id="avatar" src="/media/{{ user.avatar }}" alt="avatar"
+                             style="max-width:100%; border-radius: 250px; width:230px;">
+                        <br>
+                        <br>
+                        <h4 style="font-size: 20px;">{{ user.username }}</h4>
+                        <p style="font-size: 16px;">{{ user.user_desc }}</p>
+                    {% else %}
+                        <img id="avatar" src="{% static 'img/tuijian.png' %}" alt="default-avatar"
+                             style="max-width:100%; border-radius: 300px; width:230px;">
+                        <br>
+                        <br>
+                        <h4 style="font-size: 20px;">北木楠</h4>
+                        <p style="font-size: 16px;">人要一步步去走，事要一件件去做</p>
+                    {% endif %}
+                </div>
                 <!-- 推荐 -->
                 <div id="sidebar" class="sidebar">
                     <div class="sidebar__inner">
                         <h4><strong>最热文章</strong></h4>
                         <hr>
-
                         {% for hot_article in hot_articles %}
                             <a href="{% url 'home:detail' %}?id={{ hot_article.id }}" class="sidebar__item"
                                title="{{ hot_article.title }}">

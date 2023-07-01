@@ -511,7 +511,7 @@ pre code {
   .sidebar {
     background-image: url('/static/img/tuijian.png');
     background-size: cover;
-    padding: 10px;
+    padding: 23px;
   }
 
   /*.sidebar__inner {*/
@@ -7622,7 +7622,16 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 }
 
 .mt-4-4, .my-4-4 {
-    margin-top: 21rem !important
+    margin-top: 4rem !important
+}
+
+/*Í·ÏñÐý×ª*/
+#avatar {
+    transition: transform 1s ease-in-out;
+}
+
+#avatar:hover {
+    transform: rotate(360deg);
 }
 
 .mr-4, .mx-4 {
