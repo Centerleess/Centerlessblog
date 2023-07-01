@@ -32,7 +32,7 @@
             <a class="navbar-brand" href="{% url 'home:index' %}">个人博客</a>
         </div>
         <!-- 分类 -->
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse">
             <div>
                 <ul class="nav navbar-nav">
                     {% for cat in categories %}
@@ -40,7 +40,7 @@
                             <li class="nav-item active">
                                 <a class="nav-link mr-2" href="/?cat.id={{ cat.id }}">{{ cat.sort_title }}</a>
                             </li>
-                            {% else %}
+                        {% else %}
                             <li class="nav-item">
                                  <a class="nav-link mr-2" href="/?cat.id={{ cat.id }}">{{ cat.sort_title }}</a>
                             </li>
@@ -129,13 +129,20 @@
 
         </div>
         <!-- 推荐 -->
-        <div class="col-3 mt-4" id="sidebar" class="sidebar">
-            <div class="sidebar__inner">
-                    <h4><strong>推荐</strong></h4>
+        <div class="col-3 my-4">
+            <!-- 推荐 -->
+            <div id="sidebar" class="sidebar">
+                <div>
+                    <h4><strong>最热文章</strong></h4>
                     <hr>
                     {% for hot_article in hot_articles %}
-                        <a href="{% url 'home:detail' %}?id={{ hot_article.id }}" style="color: black">{{ hot_article.title }}</a><br>
+                        <div class="sidebar__item" title="{{ hot_article.title }}">
+                            <a href="{% url 'home:detail' %}?id={{ hot_article.id }}"
+                               style="color: black">{{ hot_article.title | truncatechars:26 }}</a>
+                        </div>
+                        <br>
                     {% endfor %}
+                </div>
             </div>
         </div>
     </div>

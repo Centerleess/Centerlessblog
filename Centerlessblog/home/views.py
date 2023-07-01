@@ -50,6 +50,10 @@ class IndexView(View):
 
         # 总页数
         total_page = paginator.num_pages
+
+        # 推荐文章
+        # 推荐文章展示
+        hot_articles = Article.objects.order_by('-total_views')[:9]
         # 传递给模板
         context = {
             "categories": categories,
@@ -58,7 +62,8 @@ class IndexView(View):
             "articles": page_articles,
             "page_size": page_size,
             "page_num": page_num,
-            "total_page": total_page
+            "total_page": total_page,
+            "hot_articles":hot_articles
         }
         return render(request, 'index.html', context=context)
 

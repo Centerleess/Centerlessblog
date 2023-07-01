@@ -508,6 +508,33 @@ pre code {
     word-break: normal
 }
 
+  .sidebar {
+    background-image: url('/static/img/tuijian.png');
+    background-size: cover;
+    padding: 10px;
+  }
+
+  /*.sidebar__inner {*/
+  /*  text-align: center;*/
+  /*}*/
+
+  .sidebar__item {
+    margin-bottom: -7px;
+    display: inline-block;
+    padding: 8px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .sidebar__item:hover {
+    color: #A0522D;
+  }
+
 .pre-scrollable {
     max-height: 340px;
     overflow-y: scroll
@@ -539,9 +566,9 @@ pre code {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1551px) {
     .container {
-        max-width: 1140px
+        max-width: 1700px
     }
 }
 
@@ -7592,6 +7619,10 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 
 .mt-4, .my-4 {
     margin-top: 1.5rem !important
+}
+
+.mt-4-4, .my-4-4 {
+    margin-top: 21rem !important
 }
 
 .mr-4, .mx-4 {

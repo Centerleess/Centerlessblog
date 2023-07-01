@@ -23,7 +23,11 @@
     <div class="container">
         <!-- 导航栏商标 -->
         <div>
-            <a class="navbar-brand" href="{% url 'home:index' %}">个人博客</a>
+            <a class="navbar-brand" href="{% url 'home:index' %}">
+                <img src="{% static 'img/logo.jpg' %}" alt="Logo" width="50" height="50"
+                     style="border-radius: 50%;">
+                北木楠博客
+            </a>
         </div>
     </div>
     <!--登录/个人中心-->

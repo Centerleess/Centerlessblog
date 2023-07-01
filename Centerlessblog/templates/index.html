@@ -30,7 +30,11 @@
         <div class="container">
             <!-- 导航栏商标 -->
             <div>
-                <a class="navbar-brand" href="{% url 'home:index' %}">个人博客</a>
+                <a class="navbar-brand" href="{% url 'home:index' %}">
+                    <img src="{% static 'img/logo.jpg' %}" alt="Logo" width="50" height="50"
+                         style="border-radius: 50%;">
+                    北木楠博客
+                </a>
             </div>
             <!-- 分类 -->
             <div class="collapse navbar-collapse">
@@ -71,60 +75,84 @@
                 </li>
             </ul>
         </div>
-</nav>
-
-<!-- content -->
-<div class="container">
-    <!-- 列表循环 -->
-    {% for article in articles %}
-
-    <div class="row mt-2">
-            <!-- 文章内容 -->
-            <!-- 标题图 -->
-            <div class="col-3">
-                <img src="{{ article.avatar.url }}" alt="avatar" style="max-width:100%; border-radius: 20px">
-            </div>
-            <div class="col">
-                <!-- 栏目 -->
-                <a  role="button" href="#" class="btn btn-sm mb-2 btn-warning">{{ article.category.sort_title }}</a>
-            <!-- 标签 -->
-                <span>
-                        <a href="#" class="badge badge-secondary">{{ article.tags }}</a>
-                </span>
-                <!-- 标题 -->
-                <h4>
-                    <b><a href="{% url 'home:detail' %}?id={{ article.id }}" style="color: black;">{{ article.title }}</a></b>
-                </h4>
-                <!-- 摘要 -->
-                <div>
-                    <p style="color: gray;">
-                        {{ article.sumary }}
-                    </p>
-                </div>
-                <!-- 注脚 -->
-                <p>
-                    <!-- 查看、评论、时间 -->
-                    <span><i class="fas fa-eye" style="color: lightskyblue;"></i>{{ article.total_views }}&nbsp;&nbsp;&nbsp;</span>
-                    <span><i class="fas fa-comments" style="color: yellowgreen;"></i>{{ article.comments_count }}&nbsp;&nbsp;&nbsp;</span>
-                    <span><i class="fas fa-clock" style="color: pink;"></i>{{ article.created }}</span>
-                </p>
-            </div>
-            <hr style="width: 100%;"/>
-    </div>
-    {% endfor %}
-
-    <!-- 页码导航 -->
-    <div class="pagenation" style="text-align: center">
-        <div id="pagination" class="page"></div>
-    </div>
-</div>
-
-<!-- Footer -->
-<footer class="py-3 bg-dark" id="footer">
+    </nav>
+    <!-- content -->
     <div class="container">
-        <h5 class="m-0 text-center text-white">Copyright @ Centerless</h5>
+        <div class="row">
+            <!-- 左侧内容 -->
+            <div class="col-9">
+                <!-- 列表循环 -->
+                {% for article in articles %}
+                    <div class="row mt-2">
+                        <!-- 文章内容 -->
+                        <!-- 标题图 -->
+                        <div class="col-3">
+                            <img src="{{ article.avatar.url }}" alt="avatar"
+                                 style="max-width:100%; border-radius: 20px">
+                        </div>
+                        <div class="col">
+                            <!-- 栏目 -->
+                            <a role="button" href="#"
+                               class="btn btn-sm mb-2 btn-warning">{{ article.category.sort_title }}</a>
+                            <!-- 标签 -->
+                            <span>
+                        <a href="#" class="badge badge-secondary">{{ article.tags }}</a>
+                    </span>
+                            <!-- 标题 -->
+                            <h4>
+                                <b><a href="{% url 'home:detail' %}?id={{ article.id }}"
+                                      style="color: black;">{{ article.title }}</a></b>
+                            </h4>
+                            <!-- 摘要 -->
+                            <div>
+                                <p style="color: gray;">
+                                    {{ article.sumary }}
+                                </p>
+                            </div>
+                            <!-- 注脚 -->
+                            <p>
+                                <!-- 查看、评论、时间 -->
+                                <span><i class="fas fa-eye" style="color: lightskyblue;"></i>{{ article.total_views }}&nbsp;&nbsp;&nbsp;</span>
+                                <span><i class="fas fa-comments"
+                                         style="color: yellowgreen;"></i>{{ article.comments_count }}&nbsp;&nbsp;&nbsp;</span>
+                                <span><i class="fas fa-clock" style="color: pink;"></i>{{ article.created }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <hr style="width: 100%;"/>
+                {% endfor %}
+                <!-- 页码导航 -->
+                <div class="pagenation" style="text-align: center">
+                    <div id="pagination" class="page"></div>
+                </div>
+            </div>
+            <!-- 右侧内容 -->
+            <div class="col-3 my-4-4">
+                <!-- 推荐 -->
+                <div id="sidebar" class="sidebar">
+                    <div class="sidebar__inner">
+                        <h4><strong>最热文章</strong></h4>
+                        <hr>
+
+                        {% for hot_article in hot_articles %}
+                            <a href="{% url 'home:detail' %}?id={{ hot_article.id }}" class="sidebar__item"
+                               title="{{ hot_article.title }}">
+                                {{ hot_article.title | truncatechars:26 }}
+                            </a>
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</footer>
+
+    <!-- Footer -->
+    <footer class="py-3 bg-dark" id="footer">
+        <div class="container">
+            <h5 class="m-0 text-center text-white">Copyright @ Centerless</h5>
+        </div>
+    </footer>
 </div>
 
 <!-- 引入js -->
@@ -137,8 +165,8 @@
         $(' #pagination').pagination({
             currentPage: {{ page_num }},
             totalPage: {{ total_page }},
-            callback:function (current) {
-                location.href = '/?cat_id={{ category.id }}&page_size={{ page_size }}&page_num='+current;
+            callback: function (current) {
+                location.href = '/?cat_id={{ category.id }}&page_size={{ page_size }}&page_num=' + current;
             }
         })
     });

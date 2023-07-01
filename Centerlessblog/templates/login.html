@@ -21,11 +21,13 @@
 
 <!-- 定义导航栏 -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <!-- 导航栏商标 -->
-        <div>
-            <a class="navbar-brand" href="{% url 'home:index' %}">个人博客</a>
-        </div>
+    <!-- 导航栏商标 -->
+    <div>
+        <a class="navbar-brand" href="{% url 'home:index' %}">
+            <img src="{% static 'img/logo.jpg' %}" alt="Logo" width="50" height="50"
+                 style="border-radius: 50%;">
+            北木楠博客
+        </a>
     </div>
     <div class="navbar-collapse">
     </div>
