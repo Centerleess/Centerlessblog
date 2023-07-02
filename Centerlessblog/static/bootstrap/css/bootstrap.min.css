@@ -1933,7 +1933,7 @@ pre code {
 
 .form-control {
     display: block;
-    width: 60%;
+    width: 80%;
     height: calc(2.25rem + 0.75rem);
     padding: .375rem .75rem;
     font-size: 1rem;

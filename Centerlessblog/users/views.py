@@ -70,7 +70,7 @@ class RegisterView(View):
             return HttpResponseBadRequest('短信验证码错误')
         # 保存注册数据,tb_user 可对密码加密
         try:
-            user = User.objects.create_user(username="小白生", mobile=mobile, password=password)
+            user = User.objects.create_user(username=mobile, mobile=mobile, password=password)
             logger.info(user)
         except DatabaseError as e:
             logger.error(e)

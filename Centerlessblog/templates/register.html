@@ -13,6 +13,33 @@
     <!-- 引入vuejs -->
     <script type="text/javascript" src="{% static 'js/vue-2.5.16.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/axios-0.18.0.min.js' %}"></script>
+    <style>
+        html, body {
+            background-image: url('/static/img/tuijian.png');
+            background-size: cover;
+            background-position: center center;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #content {
+            flex-grow: 1;
+        }
+
+        #footer {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <div id="app">
@@ -40,73 +67,85 @@
     </div>
 </nav>
 <!--content-->
-<div class="container" style="height: 600px;margin-top: 20px">
-    <div class="row" >
-        <div class="col-12">
-            <div class="col-6">
-                <form class="login" id="login_form" method="POST">
-                    {% csrf_token %}
-                    <!--手机号-->
-                    <div class="form-group">
-                        <label >手机号: </label>
-                        <div class="col-lg-6">
-                            <input type="text" name="mobile" placeholder="请输入手机号" autofocus="autofocus" required
-                                   id="id_login" class="form-control" v-model="mobile" />
-                        </div>
-                        <small class="form-text text-muted ml-1" v-show="mobile_error" >[[mobile_error_message]]</small>
-                    </div>
-                    <!--密码-->
-                    <div class="form-group">
-                        <label >密码:</label>
-                        <div class="col-lg-6">
-                            <input type="password" name="password" placeholder="请输入密码" required  class="form-control" v-model="password" @blur="check_password" />
-                        </div>
-                        <small class="form-text text-muted ml-1" v-show="password_error" >[[password_error_message]]</small>
-                    </div>
-                    <!--确认密码-->
-                    <div class="form-group">
-                        <label >确认密码:</label>
-                        <div class="col-lg-6">
-                            <input type="password" name="password2" placeholder="请输入确认密码" required  class="form-control" v-model="password2" @blur="check_password2"/>
-                        </div>
-                        <small class="form-text text-muted ml-1" v-show="password2_error" >[[password2_error_message]]</small>
-                    </div>
-                   <!--图片验证码-->
-                    <div class="form-group">
-                        <label >图片验证码:</label>
-                        <div class="row" style="margin-right:5px;margin-left:0px">
+    <div id="content" class="container" style="height: 600px;margin-top: 20px">
+        <div class="row">
+            <div class="col-12">
+                <div class="col-6">
+                    <form class="login" id="login_form" method="POST">
+                        {% csrf_token %}
+                        <!--手机号-->
+                        <div class="form-group">
+                            <label>手机号: <span style="color: red">*</span></label>
                             <div class="col-lg-6">
-                                <input type="text" name="imgage_code" placeholder="请输入图片验证码" required  class="form-control" v-model="image_code" @blur="check_image_code"/>
+                                <input type="text" name="mobile" placeholder="请输入手机号" autofocus="autofocus"
+                                       required
+                                       id="id_login" class="form-control" v-model="mobile"/>
+                                <small style="color: #F5F5DC;">请输入11位手机号码</small>
                             </div>
-                            <img :src="image_code_url" @click="generate_image_code" alt="" style="width: 110px;height: 40px;">
-                            <small class="form-text text-muted ml-1" v-show="image_code_error" >[[image_code_error_message]]</small>
+                            <small class="form-text text-muted ml-1"
+                                   v-show="mobile_error">[[mobile_error_message]]</small>
                         </div>
-                    </div>
-                   <!--短信验证码-->
-                    <div class="form-group">
-                        <label >短信验证码:</label>
-                        <div class="row" style="margin-right:5px;margin-left:0px">
+                        <!--密码-->
+                        <div class="form-group">
+                            <label>密码:<span style="color: red">*</span></label>
                             <div class="col-lg-6">
-                                <input type="text" name="sms_code" placeholder="请输入短信验证码" required  class="form-control" v-model="sms_code" @blur="check_sms_code"/>
+                                <input type="password" name="password" placeholder="请输入密码" required
+                                       class="form-control" v-model="password" @blur="check_password"/>
+                                <small style="color: #F5F5DC;">请输入8-20位之间的密码</small>
                             </div>
-                            <span class="primaryAction btn btn-primary" @click="send_sms_code">[[sms_code_message]]</span>
-                            <small class="form-text text-muted ml-1" v-show="sms_code_error" >[[sms_code_error_message]]</small>
+                            <small class="form-text text-muted ml-1"
+                                   v-show="password_error">[[password_error_message]]</small>
                         </div>
+                        <!--确认密码-->
+                        <div class="form-group">
+                            <label>确认密码:<span style="color: red">*</span></label>
+                            <div class="col-lg-6">
+                                <input type="password" name="password2" placeholder="请输入确认密码" required
+                                       class="form-control" v-model="password2" @blur="check_password2"/>
+                                <small style="color: #F5F5DC;">请再次输入8-20位之间的密码</small>
+                            </div>
+                            <small class="form-text text-muted ml-1" v-show="password2_error">[[password2_error_message]]</small>
                         </div>
-                    <button class="primaryAction btn btn-primary" type="submit" id="submit_login">注册</button>
-{#                    <button class="primaryAction btn btn-primary" type="submit" id="submit_login">注册</button>#}
-                </form>
+                        <!--图片验证码-->
+                        <div class="form-group">
+                            <label>图片验证码:<span style="color: red">*</span></label>
+                            <div class="row" style="margin-right:5px;margin-left:0px">
+                                <div class="col-lg-6">
+                                    <input type="text" name="imgage_code" placeholder="请输入图片验证码" required
+                                           class="form-control" v-model="image_code" @blur="check_image_code"/>
+                                </div>
+                                <img :src="image_code_url" @click="generate_image_code" alt=""
+                                     style="width: 110px;height: 40px;">
+                                <small class="form-text text-muted ml-1" v-show="image_code_error">[[image_code_error_message]]</small>
+                            </div>
+                        </div>
+                        <!--短信验证码-->
+                        <div class="form-group">
+                            <label>短信验证码:<span style="color: red">*</span></label>
+                            <div class="row" style="margin-right:5px;margin-left:0px">
+                                <div class="col-lg-6">
+                                    <input type="text" name="sms_code" placeholder="请输入短信验证码" required
+                                           class="form-control" v-model="sms_code" @blur="check_sms_code"/>
+                                </div>
+                                <span class="primaryAction btn btn-primary"
+                                      @click="send_sms_code">[[sms_code_message]]</span>
+                                <small class="form-text text-muted ml-1" v-show="sms_code_error">[[sms_code_error_message]]</small>
+                            </div>
+                        </div>
+                        <button class="primaryAction btn btn-primary" type="submit" id="submit_login">注册</button>
+                        {#                    <button class="primaryAction btn btn-primary" type="submit" id="submit_login">注册</button>#}
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <!-- Footer -->
-<footer class="py-3 bg-dark" id="footer">
-    <div class="container">
-        <h5 class="m-0 text-center text-white">Copyright @ Centerless</h5>
-    </div>
-</footer>
+    <footer class="py-3 bg-dark" id="footer">
+        <div class="container">
+            <h5 class="m-0 text-center text-white">Copyright @ Centerless</h5>
+        </div>
+    </footer>
 </div>
 <!-- 引入js -->
 <script type="text/javascript" src="{% static 'js/host.js' %}"></script>

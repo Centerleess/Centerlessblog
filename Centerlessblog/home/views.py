@@ -35,7 +35,7 @@ class IndexView(View):
             return HttpResponseBadRequest("没有此分类")
         # 获取分页参数
         page_num = request.GET.get('page_num', 1)
-        page_size = request.GET.get('page_size', 10)
+        page_size = request.GET.get('page_size', 9)
         # 根据分类查数据
         articles = Article.objects.filter(category=category)
 
