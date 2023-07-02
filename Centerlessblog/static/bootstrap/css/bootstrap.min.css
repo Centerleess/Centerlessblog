@@ -5776,6 +5776,21 @@ button.close {
     border-top-right-radius: calc(.3rem - 1px)
 }
 
+.sidebar__item {
+    transition: transform 0.2s;
+}
+
+.sidebar__item:hover {
+    transform: scale(1.1);
+}
+
+.sidebar {
+    transition: transform 0.2s;
+}
+
+.sidebar:hover {
+    transform: scale(1.05);
+}
 .popover-header:empty {
     display: none
 }

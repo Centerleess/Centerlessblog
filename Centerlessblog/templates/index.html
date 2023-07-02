@@ -46,13 +46,21 @@
             flex-grow: 1;
         }
         {# 最新推荐滑动效果#}
-        .sidebar__item {
-            transition: transform 0.2s;
-        }
-
-        .sidebar__item:hover {
-            transform: scale(1.1);
-        }
+{#        .sidebar__item {#}
+{#            transition: transform 0.2s;#}
+{#        }#}
+{##}
+{#        .sidebar__item:hover {#}
+{#            transform: scale(1.1);#}
+{#        }#}
+{##}
+{#        .sidebar {#}
+{#            transition: transform 0.2s;#}
+{#        }#}
+{##}
+{#        .sidebar:hover {#}
+{#            transform: scale(1.05);#}
+{#        }#}
     </style>
 </head>
 
@@ -164,7 +172,7 @@
             <!-- 右侧内容 -->
             <div class="col-3 my-4-4">
                 <div id="avatar-container" class="text-center">
-                     <audio id="avatar-audio" src="{% static 'img/81243255.mp3' %}" autoplay></audio>
+                     <audio id="avatar-audio" src="{% static 'img/二两车厘子-小道童.mp3' %}" autoplay></audio>
                      {% if user.is_authenticated %}
                          {% if user.avatar %}
                              <img id="avatar_id" src="/media/{{ user.avatar }}" alt="avatar"
