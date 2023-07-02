@@ -28,6 +28,23 @@
             background-size: cover;
             background-position: center center;
         }
+
+        /* 添加自定义样式 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container-wrapper {
+            flex-grow: 1;
+        }
     </style>
 </head>
 
@@ -86,6 +103,7 @@
         </div>
     </nav>
     <!-- content -->
+  <div class="container-wrapper">
     <div class="container">
         <div class="row">
             <!-- 左侧内容 -->
@@ -174,14 +192,14 @@
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="py-3 bg-dark" id="footer">
-        <div class="container">
-            <h5 class="m-0 text-center text-white">Copyright @ Centerless</h5>
-        </div>
-    </footer>
-</div>
+  </div>
+      <!-- Footer -->
+      <footer class="py-3 bg-dark" id="footer">
+          <div class="container">
+              <h5 class="m-0 text-center text-white">Copyright @ Centerless</h5>
+          </div>
+      </footer>
+  </div>
 
 <!-- 引入js -->
 <script type="text/javascript" src="{% static 'js/host.js' %}"></script>
