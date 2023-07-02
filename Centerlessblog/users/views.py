@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+import codecs
 import logging
 import os
 import re
@@ -69,7 +70,7 @@ class RegisterView(View):
             return HttpResponseBadRequest('短信验证码错误')
         # 保存注册数据,tb_user 可对密码加密
         try:
-            user = User.objects.create_user(username=mobile, mobile=mobile, password=password)
+            user = User.objects.create_user(username="小白生", mobile=mobile, password=password)
             logger.info(user)
         except DatabaseError as e:
             logger.error(e)
@@ -85,7 +86,7 @@ class RegisterView(View):
         # 设置cookie ，登录状态，会话结束自动过期
         response.set_cookie('is_login', True)
         # 设置用户名7天后过期
-        response.set_cookie('username', user.username, max_age=7 * 24 * 3600)
+        response.set_cookie('username', user.username.encode('utf-8').decode('latin1'), max_age=7 * 24 * 3600)
 
         return response
 
@@ -197,13 +198,13 @@ class LoginView(View):
             request.session.set_expiry(0)
             # 设置cookie
             response.set_cookie('is_login', True)
-            response.set_cookie('username', user.username, max_age=30 * 24 * 3600)
+            response.set_cookie('username', user.username.encode('utf-8').decode('latin1'), max_age=30 * 24 * 3600)
         else:
             # 记住用户：None表示两周后过期
             request.session.set_expiry(None)
             # 设置cookie
             response.set_cookie('is_login', True, max_age=14 * 24 * 3600)
-            response.set_cookie('username', user.username, max_age=30 * 24 * 3600)
+            response.set_cookie('username', user.username.encode('utf-8').decode('latin1'), max_age=30 * 24 * 3600)
             # 相应结果
         return response
 
@@ -321,15 +322,18 @@ class UserCenterView(LoginRequiredMixin, View):
         try:
             user.username = username
             user.user_desc = user_desc
-            # 这里需要实现一个上传图片替换元图片的方式
+
+            # 这里需要实现一个上传图片替换原图片的方式
             # 删除原来的图片
             if avatar and user.avatar:
                 old_avatar_path = user.avatar.path
                 if os.path.exists(old_avatar_path):
                     os.remove(old_avatar_path)
+
             # 保存新图片
             if avatar:
                 user.avatar = avatar
+
             user.save()
         except Exception as e:
             logger.error(e)
@@ -337,8 +341,9 @@ class UserCenterView(LoginRequiredMixin, View):
 
         # 返回响应，刷新页面
         response = redirect(reverse('users:center'))
+
         # 更新cookie信息
-        response.set_cookie('username', user.username, max_age=30 * 24 * 3600)
+        response.set_cookie('username', user.username.encode('utf-8').decode('latin1'), max_age=30 * 24 * 3600)
         return response
 
 

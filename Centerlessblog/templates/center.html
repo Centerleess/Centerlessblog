@@ -65,7 +65,7 @@
         <ul class="nav navbar-nav">
             <!-- 如果用户已经登录，则显示用户名下拉框 -->
             <li class="nav-item dropdown" v-if="is_login">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="show_menu_click">[[username]]</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" @click="show_menu_click">{{ user.username }}</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="display: block" v-show="show_menu">
 {#                        <a class="dropdown-item" href="{% url 'users:write_blog' %}">写文章</a>#}
                         <a class="dropdown-item" href="{% url 'users:writeblog' %}">写文章</a>
@@ -143,8 +143,8 @@
     function validateFile(input) {
         const file = input.files[0];
         const maxSize = 2 * 1024 * 1024; // 2MB
-        const mimResolution = 800;
-        const maxResolution = 1024;
+        const mimResolution = 400;
+        const maxResolution = 400;
 
         if (file.size > maxSize) {
             alert("请上传小于2MB的文件");
@@ -155,7 +155,7 @@
         const img = new Image();
         img.onload = function () {
             if (img.width > mimResolution || img.height > maxResolution) {
-                alert("请上传不大于800x1024像素的图片");
+                alert("请上传不大于400x400像素的图片");
                 input.value = "";
                 return false;
             }
