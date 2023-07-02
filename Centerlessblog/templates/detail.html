@@ -20,6 +20,33 @@
     <script type="text/javascript" src="{% static 'js/vue-2.5.16.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/axios-0.18.0.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    <style>
+        html, body {
+            background-image: url('/static/img/tuijian.png');
+            background-size: cover;
+            background-position: center center;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #content {
+            flex-grow: 1;
+        }
+
+        #footer {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -76,7 +103,7 @@
 </nav>
 
 <!-- content -->
-<div class="container">
+<div id="content" class="container">
     <div class="row">
         <!--文章详情-->
         <div class="col-9">

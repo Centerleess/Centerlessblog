@@ -610,7 +610,7 @@ pre code {
     position: relative;
     width: 100%;
     min-height: 1px;
-    padding-right: 15px;
+    padding-right: 63px;
     padding-left: 15px
 }
 
@@ -7636,7 +7636,7 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 
 /*Í·ÏñÐý×ª*/
 #avatar_id {
-    transition: transform 1s ease-in-out;
+    transition: transform 5s ease-in-out;
 }
 
 #avatar_id:hover {

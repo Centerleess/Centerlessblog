@@ -115,7 +115,7 @@
                         <!-- 标题图 -->
                         <div class="col-3">
                             <img src="{{ article.avatar.url }}" alt="avatar"
-                                 style="max-width:100%; border-radius: 20px">
+                                 style="max-width:80%; border-radius: 20px">
                         </div>
                         <div class="col">
                             <!-- 栏目 -->
@@ -155,25 +155,26 @@
             </div>
             <!-- 右侧内容 -->
             <div class="col-3 my-4-4">
-                <div class="text-center">
-                    {% if user.is_authenticated %}
-                        {% if user.avatar %}
-                            <img id="avatar_id" src="/media/{{ user.avatar }}" alt="avatar"
-                                 style="max-width:100%; border-radius: 250px; width:230px;">
-                        {% else %}
-                            <img id="avatar_id" src="{% static 'img/tuijian.png' %}" alt="default-avatar"
-                                 style="max-width:100%; border-radius: 300px; width:230px;">
-                        {% endif %}
-                        <br><br>
-                        <h4 style="font-size: 20px;">{{ user.username }}</h4>
-                        <p style="font-size: 16px;">{{ user.user_desc }}</p>
-                    {% else %}
-                        <img id="avatar_id" src="{% static 'img/tuijian.png' %}" alt="default-avatar"
-                             style="max-width:100%; border-radius: 300px; width:230px;">
-                        <br><br>
-                        <h4 style="font-size: 20px;">北木楠</h4>
-                        <p style="font-size: 16px;">人要一步步去走，事要一件件去做</p>
-                    {% endif %}
+                <div id="avatar-container" class="text-center">
+                     <audio id="avatar-audio" src="{% static 'img/81243255.mp3' %}" autoplay></audio>
+                     {% if user.is_authenticated %}
+                         {% if user.avatar %}
+                             <img id="avatar_id" src="/media/{{ user.avatar }}" alt="avatar"
+                                  style="max-width:100%; border-radius: 250px; width:230px;">
+                         {% else %}
+                             <img id="avatar_id" src="{% static 'img/tuijian.png' %}" alt="default-avatar"
+                                  style="max-width:100%; border-radius: 300px; width:230px;">
+                         {% endif %}
+                         <br><br>
+                         <h4 style="font-size: 20px;">{{ user.username }}</h4>
+                         <p style="font-size: 16px;">{{ user.user_desc }}</p>
+                     {% else %}
+                         <img id="avatar_id" src="{% static 'img/tuijian.png' %}" alt="default-avatar"
+                              style="max-width:100%; border-radius: 300px; width:230px;">
+                         <br><br>
+                         <h4 style="font-size: 20px;">北木楠</h4>
+                         <p style="font-size: 16px;">人要一步步去走，事要一件件去做</p>
+                     {% endif %}
                 </div>
                 <!-- 推荐 -->
                 <div id="sidebar" class="sidebar">
@@ -206,6 +207,7 @@
 <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.pagination.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $(' #pagination').pagination({
@@ -216,6 +218,18 @@
             }
         })
     });
+    $(document).ready(function () {
+        $("#avatar-container").hover(
+            function () {
+                $("#avatar-audio")[0].play();
+            },
+            function () {
+                $("#avatar-audio")[0].pause();
+                $("#avatar-audio")[0].currentTime = 0;
+            }
+        );
+    });
+
 </script>
 </body>
 </html>
