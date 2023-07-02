@@ -163,6 +163,18 @@
 
         img.src = URL.createObjectURL(file);
     }
+
+    // 获取手机号输入框元素
+    const phoneInput = document.getElementById('phone');
+
+    // 获取手机号的值
+    const phoneNumber = phoneInput.value;
+
+    // 将第4位到第8位替换为*****
+    const modifiedPhoneNumber = phoneNumber.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
+
+    // 更新手机号输入框的值
+    phoneInput.value = modifiedPhoneNumber;
 </script>
 </body>
 
